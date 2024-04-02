@@ -5,9 +5,9 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
+public interface BSC_UserRepository extends CrudRepository<BSC_User, Long> {
 
-//@EnableJpaRepositories
-public interface UserRepository extends CrudRepository<BSC_User, Long> {
+    List<BSC_User> findAll();
 
     List<BSC_User> findByUserName(String userName);
 

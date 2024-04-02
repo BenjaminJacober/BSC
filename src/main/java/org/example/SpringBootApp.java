@@ -1,7 +1,7 @@
 package org.example;
 
 import org.example.entities.BSC_User;
-import org.example.repositories.UserRepository;
+import org.example.repositories.BSC_UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -24,15 +24,15 @@ public class SpringBootApp {
     }
 
     @Bean
-    public CommandLineRunner run(UserRepository repository) {
+    public CommandLineRunner run(BSC_UserRepository repository) {
         return (args -> {
             something(repository);
             System.out.println(repository.findAll());
         });
     }
 
-    private void something(UserRepository userRepository) {
-        userRepository.save(new BSC_User("myName", "asdfas", "myEmail"));
+    private void something(BSC_UserRepository BSCUserRepository) {
+//        BSCUserRepository.save(new BSC_User("myName", "asdfas", "myEmail"));
     }
 
 }
