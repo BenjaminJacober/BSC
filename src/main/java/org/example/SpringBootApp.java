@@ -1,16 +1,14 @@
 package org.example;
 
-import org.example.entities.BSC_User;
-import org.example.repositories.BSC_UserRepository;
+import org.example.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
 
 @SpringBootApplication
 @Configuration
@@ -24,15 +22,27 @@ public class SpringBootApp {
     }
 
     @Bean
-    public CommandLineRunner run(BSC_UserRepository repository) {
+    public CommandLineRunner run(UserRepository repository) {
         return (args -> {
             something(repository);
             System.out.println(repository.findAll());
         });
     }
 
-    private void something(BSC_UserRepository BSCUserRepository) {
+    private void something(UserRepository BSCUserRepository) {
 //        BSCUserRepository.save(new BSC_User("myName", "asdfas", "myEmail"));
     }
+
+//    @Configuration
+//    public class WebConfig implements WebMvcConfigurer {
+//        public void addCorsMappings(CorsRegistry registry) {
+//
+//            registry.addMapping("/**")
+//                    .allowedOrigins("localhost:3000") //allow all origins
+//                    .allowedMethods("GET", "POST", "DELETE", "PATCH")
+//                    .allowedHeaders("*");
+//
+//        }
+//    }
 
 }
