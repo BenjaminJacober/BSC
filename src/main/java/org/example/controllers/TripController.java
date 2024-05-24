@@ -17,20 +17,20 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class TripController {
 
-    private final TripRepository repository;
+    private final TripRepository tripRepository;
     private final UserRepository userRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public TripController(TripRepository repository, UserRepository userRepository) {
-        this.repository = repository;
+    public TripController(TripRepository tripRepository, UserRepository userRepository) {
+        this.tripRepository = tripRepository;
         this.userRepository = userRepository;
     }
 
     @GetMapping("/trips")
     public List<TripVM> getAllTrips() {
-        return TripVM.from(repository.findAll());
+        return TripVM.from(tripRepository.findAll());
     }
 
     @Transactional
@@ -40,7 +40,7 @@ public class TripController {
         System.out.println(tripVM.toString());
 
         // todo: Do i really need to do this?
-        User user = userRepository.findByUserName(tripVM.getUserName()).get(0);
+        User user = userRepository.findById(tripVM.getUserId()).get();
 
         Trip trip = new Trip(tripVM.getName(), tripVM.getDescription(), user, Collections.emptyList());
         entityManager.persist(trip);

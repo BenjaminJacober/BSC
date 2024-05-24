@@ -2,12 +2,14 @@ package org.example.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "Uzer")
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -23,10 +25,7 @@ public class User {
     private Boolean userPrivate = false;
 
     // todo: add column  to other entities
-
-    public User() {
-    }
-
+    //  https://www.baeldung.com/jpa-unique-constraints
     public User(String userName, String hashedPassword, String emailAddress) {
         this.userName = userName;
         this.hashedPassword = hashedPassword;

@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.entities.Place;
 
+import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -15,34 +15,33 @@ import java.util.List;
 public class PlaceVM {
 
     private Long id;
-    private Date timeArrived;
-    private Date timeLeft;
+    private Long tripId;
+    private LocalDate timeArrived;
+    private LocalDate timeLeft;
     private String description;
 
     private Float latitude;
     private Float longitude;
 
-    // todo: maybe only pos needed
-    private PlaceVM from;
+    private Long fromPlaceId;
 //    private TransportationModeEnum transportationMode;
 
 
     public static PlaceVM from(Place place) {
-        if (place == null) return null;
-        return new PlaceVM(place.getId(), place.getTimeArrived(), place.getTimeLeft(), place.getDescription(),
-                place.getLatitude(), place.getLongitude(), fromWithoutFromPlace(place.getFrom()));
-    }
-
-    // todo: refactor this. Probably only want 1 list in frontend that gets u everything
-    //  probably a stack
-    public static PlaceVM fromWithoutFromPlace(Place place) {
-        return new PlaceVM(place.getId(), place.getTimeArrived(), place.getTimeLeft(), place.getDescription(),
-                place.getLatitude(), place.getLongitude(), null);
+        Long fromPlaceId = place.getFrom() == null ? null : place.getFrom().getId();
+        return new PlaceVM(
+                place.getId(),
+                place.getTrip().getId(),
+                place.getTimeArrived().toLocalDate(),
+                place.getTimeLeft().toLocalDate(),
+                place.getDescription(),
+                place.getLatitude(),
+                place.getLongitude(),
+                fromPlaceId);
     }
 
     public static List<PlaceVM> from(Collection<Place> places) {
         return places.stream().map(PlaceVM::from).toList();
     }
-
 
 }

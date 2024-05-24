@@ -2,6 +2,7 @@ package org.example.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
@@ -10,10 +11,15 @@ import java.util.Collection;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Place {
 
+    // todo: there can only be one place per trip without a "from".
+    //  froms have to be unique. a place can only be used as from once. Otherwise u could go 2 places at the same time
+
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(/*strategy = GenerationType.IDENTITY*/) // todo: this everywhere
     private Long id;
 
     private Date timeArrived;
@@ -25,6 +31,9 @@ public class Place {
     private Float latitude;
     private Float longitude;
 
+    // todo: not nullable
+    @ManyToOne
+    private Trip trip;
     @OneToOne
     private Place from;
     @OneToOne
@@ -34,4 +43,14 @@ public class Place {
 
     // coordinates / place name
 
+    // todo: not all yet
+    public Place(Trip trip, Date timeArrived, Date timeLeft, String description, Float latitude, Float longitude, Place from) {
+        this.trip = trip;
+        this.timeArrived = timeArrived;
+        this.timeLeft = timeLeft;
+        this.description = description;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.from = from;
+    }
 }
