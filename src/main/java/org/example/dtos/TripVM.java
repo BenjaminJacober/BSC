@@ -13,28 +13,28 @@ import java.util.List;
 @Getter
 public class TripVM {
 
-    private Long id;
-    private String name;
-    private String description;
-    private Long userId;
-    private Collection<PlaceVM> places;
+	private Long id;
+	private String name;
+	private String description;
+	private Long userId;
+	private Collection<PlaceVM> places;
 
-    public static TripVM from(Trip trip) {
-        return new TripVM(trip.getId(), trip.getName(), trip.getDescription(), trip.getUser().getId(), PlaceVM.from(trip.getPlaces()));
-    }
+	public static TripVM from(Trip trip) {
+		return new TripVM(trip.getId(), trip.getName(), trip.getDescription(), trip.getUser().getId(), PlaceVM.from(trip.getPlaces()));
+	}
 
-    public static List<TripVM> from(Collection<Trip> trips) {
-        return trips.stream().map(TripVM::from).toList();
-    }
+	public static List<TripVM> from(Collection<Trip> trips) {
+		return trips.stream().map(TripVM::from).toList();
+	}
 
-    @Override
-    public String toString() {
-        return "TripVM{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", userId=" + userId +
-                ", places=" + places +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "TripVM{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", description='" + description + '\'' +
+				", userId=" + userId +
+				", places=" + places +
+				'}';
+	}
 }

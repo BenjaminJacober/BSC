@@ -16,7 +16,7 @@ public class UserVM {
 
 	private Long id;
 
-//	@NotNull
+	//	@NotNull
 //	@NotEmpty
 //	@Size(min = 2, max = 50)
 	// todo: can also be null, when we login... need solution for validation and not creating 10 VMs

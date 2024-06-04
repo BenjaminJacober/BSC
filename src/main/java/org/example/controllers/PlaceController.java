@@ -15,42 +15,42 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class PlaceController {
 
-    private final PlaceRepository placeRepository;
-    private final TripRepository tripRepository;
+	private final PlaceRepository placeRepository;
+	private final TripRepository tripRepository;
 
-    public PlaceController(PlaceRepository placeRepository, TripRepository tripRepository) {
-        this.placeRepository = placeRepository;
-        this.tripRepository = tripRepository;
-    }
+	public PlaceController(PlaceRepository placeRepository, TripRepository tripRepository) {
+		this.placeRepository = placeRepository;
+		this.tripRepository = tripRepository;
+	}
 
-    @GetMapping("/places")
-    public List<PlaceVM> getAllPlaces(@RequestParam(name = "tripId") Long tripId) {
-        Trip trip = tripRepository.findById(tripId).get();
-        List<Place> byTrip = placeRepository.findByTrip(trip);
-        return PlaceVM.from(byTrip);
-    }
+	@GetMapping("/places")
+	public List<PlaceVM> getAllPlaces(@RequestParam(name = "tripId") Long tripId) {
+		Trip trip = tripRepository.findById(tripId).get();
+		List<Place> byTrip = placeRepository.findByTrip(trip);
+		return PlaceVM.from(byTrip);
+	}
 
-    @Transactional
-    @PostMapping("/places/create")
-    public PlaceVM createPlace(@RequestBody PlaceVM placeVM) {
+	@Transactional
+	@PostMapping("/places/create")
+	public PlaceVM createPlace(@RequestBody PlaceVM placeVM) {
 
-        Trip trip = tripRepository.findById(placeVM.getTripId()).get();
+		Trip trip = tripRepository.findById(placeVM.getTripId()).get();
 
-        Place fromPlace = placeVM.getFromPlaceId() == null
-                ? null
-                : placeRepository.findById(placeVM.getFromPlaceId()).get();
+		Place fromPlace = placeVM.getFromPlaceId() == null
+				? null
+				: placeRepository.findById(placeVM.getFromPlaceId()).get();
 
-        Place place = new Place(trip,
-                Date.valueOf(placeVM.getTimeArrived()),
-                Date.valueOf(placeVM.getTimeLeft()),
-                placeVM.getDescription(),
-                placeVM.getLatitude(),
-                placeVM.getLongitude(),
-                fromPlace);
+		Place place = new Place(trip,
+				Date.valueOf(placeVM.getTimeArrived()),
+				Date.valueOf(placeVM.getTimeLeft()),
+				placeVM.getDescription(),
+				placeVM.getLatitude(),
+				placeVM.getLongitude(),
+				fromPlace);
 
-        placeRepository.save(place);
+		placeRepository.save(place);
 
-        return PlaceVM.from(place);
-    }
+		return PlaceVM.from(place);
+	}
 
 }

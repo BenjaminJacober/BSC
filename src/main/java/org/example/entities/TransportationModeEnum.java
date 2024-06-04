@@ -1,8 +1,8 @@
 package org.example.entities;
 
 public enum TransportationModeEnum {
-    BOAT,
-    AIRPLANE,
-    BICYCLE,
-    CAR,
+	BOAT,
+	AIRPLANE,
+	BICYCLE,
+	CAR,
 }

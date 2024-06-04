@@ -15,32 +15,32 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class TripController {
 
-    private final TripRepository tripRepository;
-    private final UserRepository userRepository;
+	private final TripRepository tripRepository;
+	private final UserRepository userRepository;
 
-    public TripController(TripRepository tripRepository, UserRepository userRepository) {
-        this.tripRepository = tripRepository;
-        this.userRepository = userRepository;
-    }
+	public TripController(TripRepository tripRepository, UserRepository userRepository) {
+		this.tripRepository = tripRepository;
+		this.userRepository = userRepository;
+	}
 
-    @GetMapping("/trips")
-    public List<TripVM> getAllTrips() {
-        return TripVM.from(tripRepository.findAll());
-    }
+	@GetMapping("/trips")
+	public List<TripVM> getAllTrips() {
+		return TripVM.from(tripRepository.findAll());
+	}
 
-    @Transactional
-    @PostMapping("/trips/create")
-    public TripVM createTrip(@RequestBody TripVM tripVM) {
+	@Transactional
+	@PostMapping("/trips/create")
+	public TripVM createTrip(@RequestBody TripVM tripVM) {
 
-        System.out.println(tripVM.toString());
+		System.out.println(tripVM.toString());
 
-        // todo: Do i really need to do this?
-        User user = userRepository.findById(tripVM.getUserId()).get();
+		// todo: Do i really need to do this?
+		User user = userRepository.findById(tripVM.getUserId()).get();
 
-        Trip trip = new Trip(tripVM.getName(), tripVM.getDescription(), user, Collections.emptyList());
-        tripRepository.save(trip);
+		Trip trip = new Trip(tripVM.getName(), tripVM.getDescription(), user, Collections.emptyList());
+		tripRepository.save(trip);
 
-        return TripVM.from(trip);
-    }
+		return TripVM.from(trip);
+	}
 
 }

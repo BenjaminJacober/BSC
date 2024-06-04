@@ -11,9 +11,9 @@ import lombok.Setter;
 @Setter
 public class TransportationMode {
 
-    @Id
-    @GeneratedValue
-    private Long id;
-    private String name;
+	@Id
+	@GeneratedValue
+	private Long id;
+	private String name;
 
 }

@@ -14,13 +14,13 @@ import java.sql.Blob;
 @Setter
 public class Image {
 
-    @Id
-    @GeneratedValue
-    private Long id;
-    private String title;
-    private String description;
+	@Id
+	@GeneratedValue
+	private Long id;
+	private String title;
+	private String description;
 
-    @Lob
-    private Blob image;
+	@Lob
+	private Blob image;
 
 }
