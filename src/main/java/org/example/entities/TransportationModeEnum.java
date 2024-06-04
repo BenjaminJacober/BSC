@@ -1,4 +1,4 @@
-package org.example.view_models;
+package org.example.entities;
 
 public enum TransportationModeEnum {
     BOAT,

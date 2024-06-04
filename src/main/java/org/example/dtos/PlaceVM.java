@@ -1,4 +1,4 @@
-package org.example.view_models;
+package org.example.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

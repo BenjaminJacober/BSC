@@ -1,13 +1,11 @@
 package org.example.controllers;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import org.example.dtos.PlaceVM;
 import org.example.entities.Place;
 import org.example.entities.Trip;
 import org.example.repositories.PlaceRepository;
 import org.example.repositories.TripRepository;
-import org.example.view_models.PlaceVM;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -19,9 +17,6 @@ public class PlaceController {
 
     private final PlaceRepository placeRepository;
     private final TripRepository tripRepository;
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     public PlaceController(PlaceRepository placeRepository, TripRepository tripRepository) {
         this.placeRepository = placeRepository;
@@ -53,7 +48,7 @@ public class PlaceController {
                 placeVM.getLongitude(),
                 fromPlace);
 
-        entityManager.persist(place);
+        placeRepository.save(place);
 
         return PlaceVM.from(place);
     }

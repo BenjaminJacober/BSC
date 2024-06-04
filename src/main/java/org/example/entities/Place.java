@@ -27,7 +27,7 @@ public class Place {
     // Could me markdown at some point
     private String description;
 
-    // todo: use decimal, maybe?
+    // todo: use decimal, maybe? https://stackoverflow.com/questions/1196415/what-datatype-to-use-when-storing-latitude-and-longitude-data-in-sql-databases
     private Float latitude;
     private Float longitude;
 
@@ -37,6 +37,7 @@ public class Place {
     @OneToOne
     private Place from;
     @OneToOne
+    // todo: use Enum
     private TransportationMode arrivedBy;
     @OneToMany
     private Collection<Image> images;

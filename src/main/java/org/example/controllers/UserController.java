@@ -1,42 +1,39 @@
 package org.example.controllers;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
-import org.example.entities.User;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.example.dtos.AuthenticationResponse;
+import org.example.dtos.UserVM;
 import org.example.repositories.UserRepository;
-import org.example.view_models.UserVM;
+import org.example.services.AuthenticationService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 // todo: set base Mapping
 public class UserController {
 
-    private final UserRepository repository;
+	//	private static final Logger log = LoggerFactory.getLogger(UserController.class);
+	private final UserRepository userRepository;
+	private final AuthenticationService authenticationService;
 
-    @PersistenceContext
-    private EntityManager entityManager;
+	@GetMapping("/users")
+	public List<UserVM> getAllUsers() {
+		return UserVM.from(userRepository.findAll());
+	}
 
-    public UserController(UserRepository repository) {
-        this.repository = repository;
-    }
+	@PostMapping("/users/register")
+	public ResponseEntity<AuthenticationResponse> registerUser(@RequestBody @Valid UserVM userVM) {
+		return ResponseEntity.ok(authenticationService.register(userVM));
+	}
 
-    @GetMapping("/users")
-    public List<UserVM> getAllUsers() {
-        return UserVM.from(repository.findAll());
-    }
-
-    @Transactional
-    @PostMapping("/users/create")
-    public UserVM createUser(@RequestBody UserVM userVM) {
-        User user = new User(userVM.getUserName(), userVM.getHashedPassword(), userVM.getEmailAddress());
-        entityManager.persist(user);
-
-        return UserVM.from(user);
-    }
-
+	@PostMapping("/users/authenticate")
+	public ResponseEntity<AuthenticationResponse> authenticateUser(@RequestBody @Valid UserVM userVM) {
+		return ResponseEntity.ok(authenticationService.authenticate(userVM));
+	}
 
 }

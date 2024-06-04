@@ -1,13 +1,11 @@
 package org.example.controllers;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
-import org.example.entities.User;
+import org.example.dtos.TripVM;
 import org.example.entities.Trip;
-import org.example.repositories.UserRepository;
+import org.example.entities.User;
 import org.example.repositories.TripRepository;
-import org.example.view_models.TripVM;
+import org.example.repositories.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -19,9 +17,6 @@ public class TripController {
 
     private final TripRepository tripRepository;
     private final UserRepository userRepository;
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     public TripController(TripRepository tripRepository, UserRepository userRepository) {
         this.tripRepository = tripRepository;
@@ -43,7 +38,7 @@ public class TripController {
         User user = userRepository.findById(tripVM.getUserId()).get();
 
         Trip trip = new Trip(tripVM.getName(), tripVM.getDescription(), user, Collections.emptyList());
-        entityManager.persist(trip);
+        tripRepository.save(trip);
 
         return TripVM.from(trip);
     }

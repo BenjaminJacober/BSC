@@ -1,44 +1,75 @@
 package org.example.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
+@Table(name = "Uzer")
 @Getter
 @Setter
-@Table(name = "Uzer")
+@Builder
 @NoArgsConstructor
-public class User {
+@AllArgsConstructor
+public class User implements UserDetails {
 
-    @Id
-    @GeneratedValue
-    private Long id;
-    @Column(nullable = false, unique = true)
-    private String userName;
-    @Column(nullable = false)
-    private String hashedPassword;
-    @Column(nullable = false, unique = true)
-    private String emailAddress;
-    @Column()
-    private Boolean userPrivate = false;
+	@Id
+	@GeneratedValue
+	private Long id;
+	@Column(nullable = false, unique = true)
+	private String userName; // todo: max length
+	@Column(nullable = false, length = 60) // BCrypt generates strings of length 60
+	private String password;
+	@Column(nullable = false, unique = true)
+	private String email;
+	@Column()
+	private Boolean userPrivate = false;
+	@Enumerated(EnumType.ORDINAL)
+	private Role role;
 
-    // todo: add column  to other entities
-    //  https://www.baeldung.com/jpa-unique-constraints
-    public User(String userName, String hashedPassword, String emailAddress) {
-        this.userName = userName;
-        this.hashedPassword = hashedPassword;
-        this.emailAddress = emailAddress;
-    }
+	// todo: https://www.baeldung.com/jpa-unique-constraints
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", userName='" + userName + '\'' +
-                ", hashedPassword='" + hashedPassword + '\'' +
-                ", emailAddress='" + emailAddress + '\'' +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "User{" +
+				"id=" + id +
+				", userName='" + userName + '\'' +
+				", emailAddress='" + email + '\'' +
+				'}';
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority(role.name()));
+	}
+
+	@Override
+	public String getUsername() {
+		return email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return UserDetails.super.isAccountNonExpired();
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return UserDetails.super.isAccountNonLocked();
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return UserDetails.super.isCredentialsNonExpired();
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return UserDetails.super.isEnabled();
+	}
 }

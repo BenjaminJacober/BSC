@@ -17,32 +17,20 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan(basePackages = "org.example.entities")
 public class SpringBootApp {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SpringBootApp.class);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(SpringBootApp.class);
+	}
 
-    @Bean
-    public CommandLineRunner run(UserRepository repository) {
-        return (args -> {
-            something(repository);
-            System.out.println(repository.findAll());
-        });
-    }
+	@Bean
+	public CommandLineRunner run(UserRepository repository) {
+		return (args -> {
+			something(repository);
+			System.out.println(repository.findAll());
+		});
+	}
 
-    private void something(UserRepository BSCUserRepository) {
+	private void something(UserRepository BSCUserRepository) {
 //        BSCUserRepository.save(new BSC_User("myName", "asdfas", "myEmail"));
-    }
-
-//    @Configuration
-//    public class WebConfig implements WebMvcConfigurer {
-//        public void addCorsMappings(CorsRegistry registry) {
-//
-//            registry.addMapping("/**")
-//                    .allowedOrigins("localhost:3000") //allow all origins
-//                    .allowedMethods("GET", "POST", "DELETE", "PATCH")
-//                    .allowedHeaders("*");
-//
-//        }
-//    }
+	}
 
 }
